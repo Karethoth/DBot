@@ -1,0 +1,36 @@
+DBot
+====
+
+IRC bot with following features:
+--------------------------------
+- Should be able to keep list of superusers(users with the right to command the bot)
+- Commands: !join, !part, !addsuser, !removesuser, !staturl, !updatestats
+- Should be able to keep stats of the most active users, most used words and so on..
+- Should be able to backup statistics to mysql-database.
+- Should be able to update stats to .html files when commanded
+- Should be able to handle input from multiple channels
+
+
+
+Breaking the bot to parts:
+--------------------------
+- IRC-core:
+  - IRC-structures
+  - Handles the low level IRC protocol messages
+  - Will be given functions/methods to be hashed with different IRC message id's
+  - Calls given functions/methods according to received IRC message id's
+
+- DatabaseSystem:
+  - Handles reading and writing the statistics to the database
+
+- StatSystem:
+  - Keeps track of statistics
+  - Handles html-file generation
+  - Passes statistics to the DatabaseSystem when commanded
+  - Also gets the statistics from the DatabaseSystem when the DBot is started
+
+- DBot:
+  - High level, adds the real functionality to the bot
+  - Defines the methods and functions used by the IRC-core
+  - Gives methods and functions to the IRC-core
+
