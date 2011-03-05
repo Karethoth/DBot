@@ -81,7 +81,9 @@ class IRCConnection : ReadWriter
     if( !IsAlive )
       return false;
 
-    auto ret = handle.send( msg );
+    writefln( "SENDING: %s", msg );
+
+    auto ret = handle.send( msg ~ "\n" );
     if( !ret )
       return false;
 
@@ -99,6 +101,8 @@ class IRCConnection : ReadWriter
     if( !ret )
       return null;
 
+    if( ret == -1 )
+      return null;
 
     char[] data = buf[0 .. ret].dup;
     // If we didn't manage to read everything to the buffer
@@ -114,6 +118,11 @@ class IRCConnection : ReadWriter
     }
 
     return cast(string)data;
+  }
+
+  Socket* GetHandle()
+  {
+    return &handle;
   }
 }
 

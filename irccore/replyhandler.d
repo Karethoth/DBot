@@ -52,12 +52,15 @@ class ReplyHandler
   {
     assert( line !is null );
     assert( line.length > 0 );
-    assert( line[0] == ':' );
 
-    line = line[1 .. $]; // Snip the leading ':'
+    if( line[0] == ':' )
+      line = line[1 .. $]; // Snip the leading ':'
+    else
+      writefln( "No start-:? - %s", line );
+
     ReplyInfo info;
     string[] words = split( line );
-    assert( words.length >= 3 );
+    assert( words.length >= 2 );
 
     info.raw = line;
 
@@ -66,16 +69,22 @@ class ReplyHandler
 
     // Fetch the message:
     int messageIndex = indexOf( line, ':' );
-    assert( messageIndex >= 0 );
-    info.message = line[messageIndex+1 .. $];
+    if( messageIndex >= 0 )
+      info.message = line[messageIndex+1 .. $];
 
-    // If we're dealing with NOTICE message here
-    if( words[1] == "NOTICE" )
+    // Check if we're dealing with PING
+    if( words[0] == "PING" )
     {
-      info.command = words[1];
-      info.replyCode = words[1];
+      info.command = words[0];
+      info.replyCode = words[0];
     }
-    // We're dealing with a reply code here
+    // If we're dealing with NOTICE message here
+    else if( words[0] == "NOTICE" )
+    {
+      info.command = words[0];
+      info.replyCode = words[0];
+    }
+    // We're dealing with a normal reply code here
     else
     {
       // Fetch the reply code
@@ -84,16 +93,18 @@ class ReplyHandler
       // Fetch the target
       info.target = words[2];
     }
-    // TODO
-    // pass IRCConnection with the call
+
+    // Check if the code has been pointed to a delegate
     if( info.replyCode in replyCodeMap )
     {
       replyCodeMap[info.replyCode]( info, *connection );
     }
+    // If not..
     else
     {
       writefln( "Unknown reply code \"%s\" - %s", info.replyCode, info.raw );
     }
+
     return info;
   }
 

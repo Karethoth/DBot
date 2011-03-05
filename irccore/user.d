@@ -12,15 +12,6 @@ struct UserInfo
   string host;
   string ip;
 
-  this( this )
-  {
-    nick = null;
-    ident = null;
-    realName = null;
-    host = null;
-    ip = null;
-  }
-
   this( string info )
   {
     nick = null;
@@ -37,7 +28,7 @@ struct UserInfo
       return;
     }
     // So we're dealing with a client then
-    nick = info[0 .. nickEnd-1];
+    nick = info[0 .. nickEnd];
   }
 
   ~this()
