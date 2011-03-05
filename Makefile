@@ -1,4 +1,4 @@
-files=*.d irccore/*.d bot/*.d
+files=*.d irccore/*.d bot/*.d statsystem/*.d
 exec=dbot
 all :
 	dmd -of$(exec) $(files)

@@ -5,6 +5,7 @@ import std.array, std.conv;
 import irccore.ircconnection;
 import irccore.user;
 
+
 struct ReplyInfo
 {
   UserInfo *user;
