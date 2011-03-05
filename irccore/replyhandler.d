@@ -20,10 +20,15 @@ class ReplyHandler
 {
  private:
   void delegate( ReplyInfo, IRCConnection )[string] replyCodeMap;
+  IRCConnection *connection;
 
  public:
   this()
   {
+  }
+  this( IRCConnection *conn )
+  {
+    connection = conn;
   }
 
   ~this()
@@ -83,7 +88,7 @@ class ReplyHandler
     // pass IRCConnection with the call
     if( info.replyCode in replyCodeMap )
     {
-      replyCodeMap[info.replyCode]( info, null );
+      replyCodeMap[info.replyCode]( info, *connection );
     }
     else
     {
@@ -129,6 +134,12 @@ class ReplyHandler
         return false;
     }
     return true;
+  }
+
+
+  void SetConnection( IRCConnection *conn )
+  {
+    connection = conn;
   }
 }
 

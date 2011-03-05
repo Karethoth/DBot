@@ -20,6 +20,7 @@ int main( char[][] argv )
   }
 
   ReplyHandler replyHandler = new ReplyHandler();
+  replyHandler.SetConnection( &conn );
   replyHandler.ReplyCodeToDelegate( "NOTICE", &HandleNotice );
   replyHandler.HandleInput( data );
   delete replyHandler;
