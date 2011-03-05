@@ -1,5 +1,8 @@
 module irccore.user;
 
+import std.string;
+
+
 // Structure to hold some basic user info
 struct UserInfo
 {
@@ -16,6 +19,25 @@ struct UserInfo
     realName = null;
     host = null;
     ip = null;
+  }
+
+  this( string info )
+  {
+    nick = null;
+    ident = null;
+    realName = null;
+    host = null;
+    ip = null;
+
+    int nickEnd = indexOf( info, '!' );
+    // If not found, we're dealing with the server
+    if( nickEnd == -1 )
+    {
+      host = info;
+      return;
+    }
+    // So we're dealing with a client then
+    nick = info[0 .. nickEnd-1];
   }
 
   ~this()

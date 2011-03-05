@@ -1,5 +1,7 @@
 import std.stdio;
 import irccore.ircconnection;
+import irccore.replyhandler;
+
 
 
 // Currently used to test if implemented
@@ -11,10 +13,20 @@ int main( char[][] argv )
     return -1;
 
   string data = conn.Read();
-  writefln( "Received: \"%s\"", data );
+
+  void HandleNotice( ReplyInfo reply, IRCConnection conn )
+  {
+    writefln( "NOTICE: %s", reply.message );
+  }
+
+  ReplyHandler replyHandler = new ReplyHandler();
+  replyHandler.ReplyCodeToDelegate( "NOTICE", &HandleNotice );
+  replyHandler.HandleInput( data );
+  delete replyHandler;
 
   conn.Disconnect;
 
   delete conn;
   return 0;
 }
+
