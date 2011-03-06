@@ -11,7 +11,6 @@ import statsystem.stats;
 // TODO
 // Server.Part( string channel, string message=null )
 // Server.Quit( string message=null )
-// DBot - Constructors, destructors, GetServer()
 
 
 class DBot
@@ -145,3 +144,4 @@ class DBot
     return true;
   }
 }
+
