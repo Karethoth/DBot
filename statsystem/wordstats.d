@@ -40,7 +40,7 @@ class WordStats
   }
 
 
-  void GenerateStatsFromMessage( string msg )
+  void InputMessage( string msg )
   {
     string[] words = split( msg );
     foreach( string word; words )

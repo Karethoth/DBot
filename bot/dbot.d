@@ -6,7 +6,7 @@ import irccore.ircconnection;
 import irccore.replyhandler;
 import irccore.user;
 import irccore.server;
-import statsystem.wordstats;
+import statsystem.stats;
 
 // TODO
 // Server.Part( string channel, string message=null )
@@ -19,7 +19,7 @@ class DBot
  private:
   Server server;
   UserInfo bot;
-  WordStats wordStats;
+  Stats stats;
   ReplyHandler replyHandler;
  
 
@@ -28,7 +28,7 @@ class DBot
   {
     server = new Server( serverInfo );
     bot = botInfo;
-    wordStats = new WordStats();
+    stats = new Stats();
     replyHandler = new ReplyHandler( server.GetConnection() );
   }
 
@@ -37,8 +37,8 @@ class DBot
     if( server !is null )
       delete server;
 
-    if( wordStats !is null)
-      delete wordStats;
+    if( stats !is null)
+      delete stats;
 
     if( replyHandler !is null)
       delete replyHandler;
@@ -48,7 +48,7 @@ class DBot
   bool Start()
   {
     assert( server !is null );
-    assert( wordStats !is null );
+    assert( stats !is null );
     assert( replyHandler !is null );
 
     // Generate the deligates
@@ -137,7 +137,8 @@ class DBot
         return;
 
       writefln( "<%s@%s> %s", reply.user.nick, reply.target, reply.message );
-      wordStats.GenerateStatsFromMessage( reply.message );
+      stats.InputPrivmsg( reply );
+      stats.PrintStats();
     }
     replyHandler.ReplyCodeToDelegate( "PRIVMSG", &HandlePrivMsg );
 
