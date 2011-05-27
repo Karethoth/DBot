@@ -84,8 +84,8 @@ class DBot
       }
     }
 
-    // Join #lobby
-    if( !server.Join( "#lobby" ) )
+    // Join to #channel
+    if( !server.Join( "#channel" ) )
       return false;
 
     // The "main" loop

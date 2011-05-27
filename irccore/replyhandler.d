@@ -54,10 +54,15 @@ class ReplyHandler
     assert( line !is null );
     assert( line.length > 0 );
 
+    int replyCodeIndex = 1;
+    // Hybrid-style
     if( line[0] == ':' )
       line = line[1 .. $]; // Snip the leading ':'
+    // In other cases reply code index is 0
     else
-      writefln( "No start-:? - %s", line );
+    {
+      replyCodeIndex = 0;
+    }
 
     ReplyInfo info;
     string[] words = split( line );
@@ -74,25 +79,25 @@ class ReplyHandler
       info.message = line[messageIndex+1 .. $];
 
     // Check if we're dealing with PING
-    if( words[0] == "PING" )
+    if( words[replyCodeIndex] == "PING" )
     {
       info.command = words[0];
       info.replyCode = words[0];
     }
     // If we're dealing with NOTICE message here
-    else if( words[0] == "NOTICE" )
+    else if( words[replyCodeIndex] == "NOTICE" )
     {
-      info.command = words[0];
-      info.replyCode = words[0];
+      info.command = words[replyCodeIndex];
+      info.replyCode = words[replyCodeIndex];
     }
     // We're dealing with a normal reply code here
     else
     {
       // Fetch the reply code
-      info.replyCode = words[1];
+      info.replyCode = words[replyCodeIndex];
 
       // Fetch the target
-      info.target = words[2];
+      info.target = words[replyCodeIndex+1];
     }
 
     // Check if the code has been pointed to a delegate

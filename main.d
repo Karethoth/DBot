@@ -12,16 +12,16 @@ int main( char[][] argv )
   // Server info
   ServerInfo serverInfo = ServerInfo
   (
-    "TestServer",
-    "localhost",
-    6667
+    "Server Name",
+    "Server Host",
+    6667 // Port
   );
 
   // Identity of the bot
   UserInfo botInfo;
-  botInfo.nick = "DBot";
-  botInfo.ident = "DBotV.01";
-  botInfo.realName = "ByKoukari";
+  botInfo.nick = "dbot";
+  botInfo.ident = "dbot";
+  botInfo.realName = "dbot";
   
   DBot bot = new DBot( botInfo, serverInfo );
   bot.Start();

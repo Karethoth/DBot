@@ -1,0 +1,5 @@
+DBot - A IRC bot written in D.
+
+It still has a lot to to be done, but works somehow now.
+
+You may change the server settings from main.d and the channel to be joined from bot/dbot.d.
